@@ -1,7 +1,7 @@
 <?php
 
-Class ErrorController{
-    public function index(){
-        echo "La pagina que busca no existe";
+    class errorController{
+        public function index(){
+            echo "<h1>La página que buscas no existe</h1>";
+        }
     }
-}

@@ -1,4 +1,4 @@
-<aside id="lateral">
+            <aside id="lateral">
                 <div id="login" class="block_aside">
                     <h3>Entrar a la web</h3>
                     <form action="#">

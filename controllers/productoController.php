@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-require_once 'models/producto.php';
+// require_once 'models/producto.php';
 
 class productoController{
     public function index(){

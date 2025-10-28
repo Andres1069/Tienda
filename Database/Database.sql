@@ -1,60 +1,63 @@
-CREATE DATABASE IF NOT EXISTS TIENDA;
-USE TIENDA;
+CREATE DATABASE IF NOT EXISTS tienda;
 
-CREATE TABLE IF NOT EXISTS T_Usuarios (
-    Id_Usuario      INT (11) AUTO_INCREMENT NOT NULL,
-    Nombre          VARCHAR (100)           NOT NULL,
-    Apellidos       VARCHAR (100)           NOT NULL,
-    Email           VARCHAR(200)            NOT NULL,
-    Password        VARCHAR (255)           NOT NULL,
-    Rol             VARCHAR(20),
-    Imagen          VARCHAR(255),
-    CONSTRAINT      pk_usuario      PRIMARY KEY (Id_Usuario),
-    CONSTRAINT      uq_email        UNIQUE (Email)
+USE tienda;
+
+CREATE TABLE IF NOT EXISTS t_usuarios(
+    id_usuario      int(11) auto_increment  NOT NULL,
+    nombre          varchar(100)            NOT NULL,
+    apellidos       varchar(100)            NOT NULL,
+    email           varchar(200)            NOT NULL,
+    password        varchar(255)            NOT NULL,
+    rol             varchar(20),
+    imagen          varchar(255),
+    CONSTRAINT      pk_usuario      PRIMARY KEY(id_usuario),
+    CONSTRAINT      uq_email        UNIQUE(email)
 )ENGINE=InnoDb;
 
-INSERT INTO T_Usuarios VALUES (NULL, 'admin','admin','admin@gmail.com','1234','admin','imagen');
+INSERT INTO t_usuarios VALUES(NULL, 'admin', 'admin','admin@admin.com','1234','admin','imagen');
 
-CREATE TABLE IF NOT EXISTS T_Categoria(
-    Id_Categoria        INT (11) AUTO_INCREMENT NOT NULL,
-    Nombre_Categoria    VARCHAR(100)            NOT NULL,
-    CONSTRAINT pk_categoria PRIMARY KEY (Id_Categoria)
+CREATE TABLE IF NOT EXISTS t_categorias(
+    id_categoria        int(11) auto_increment  NOT NULL,
+    nombre_categoria    varchar(100)            NOT NULL,
+    CONSTRAINT pk_categoria PRIMARY KEY(id_categoria)
 )ENGINE=InnoDb;
 
-INSERT INTO T_Categoria VALUES (NULL,'Construcción'),(NULL,'Electricos'), (NULL,'Tuberias');
+INSERT INTO t_categorias VALUE(NULL, 'Construcccion'),(null,'Electricos'),(null,'Pisos');
 
-CREATE TABLE IF NOT EXISTS T_Produto(
-    Id_Producto         INT (11) AUTO_INCREMENT NOT NULL,
-    Nombre_Producto     VARCHAR(100)            NOT NULL,
-    Descripción         VARCHAR (200)           NOT NULL,
-    Precio              FLOAT (10,2)            NOT NULL,
-    Stock               INT (100)               NOT NULL,
-    Oferta              VARCHAR (50)            NOT NULL,
-    Fecha               DATE                    NOT NULL,
-    Imagen              VARCHAR(255),
-    Id_Categoria        INT (11)                NOT NULL,
-    CONSTRAINT pk_producto PRIMARY KEY (Id_Producto),
-    CONSTRAINT fk_producto_categoria FOREIGN KEY (Id_Categoria) REFERENCES T_Categoria (Id_Categoria)
+CREATE TABLE IF NOT EXISTS t_productos(
+    id_producto         int(11) auto_increment  NOT NULL,
+    nombre_producto     varchar(100)            NOT NULL,
+    descripcion         varchar(200)            NOT NULL,
+    precio              float(100,2)            NOT NULL,
+    stock               int(100)                NOT NULL,
+    oferta              varchar(50)             NOT NULL,
+    fecha               date                    NOT NULL,
+    imagen              varchar(255),
+    id_categoria        int(11)                 NOT NULL,
+    CONSTRAINT          pk_producto             PRIMARY KEY(id_producto),
+    CONSTRAINT          fk_producto_categoria   FOREIGN KEY(id_categoria) REFERENCES t_categorias(id_categoria)
 )ENGINE=InnoDb;
 
-CREATE TABLE IF NOT EXISTS T_Pedido(
-    Id_Pedido         INT (11) AUTO_INCREMENT NOT NULL,
-    Ciudad            VARCHAR (50)            NOT NULL,
-    Dirección         VARCHAR (50)            NOT NULL,
-    Precio            FLOAT (10,2)            NOT NULL,
-    Fecha_Pedido      DATE                    NOT NULL,
-    Estado_Pedido     VARCHAR (50)            NOT NULL,
-    Id_Usuario        INT (11)                NOT NULL,
-    CONSTRAINT pk_pedido PRIMARY KEY (Id_Pedido),
-    CONSTRAINT fk_pedido_usuario FOREIGN KEY (Id_Usuario) REFERENCES T_Usuarios (Id_Usuario)
+
+CREATE TABLE IF NOT EXISTS t_pedidos(
+    id_pedido   int(11) auto_increment  NOT NULL,
+    id_usuario  int(11)                 NOT NULL,
+    ciudad      varchar(100)            NOT NULL,
+    direccion   varchar(200)            NOT NULL,
+    costo       float(10,2)             NOT NULL,
+    estado      varchar(20)             NOT NULL,
+    fecha       date,
+    hora        time,
+    CONSTRAINT  pk_pedidos          PRIMARY KEY(id_pedido),
+    CONSTRAINT  fk_pedido_usuario   FOREIGN KEY(id_usuario) REFERENCES t_usuarios(id_usuario)
 )ENGINE=InnoDb;
 
-CREATE TABLE IF NOT EXISTS T_Detalle_Pedido(
-    Id_Detalle_Pedido         INT (11) AUTO_INCREMENT NOT NULL,
-    Id_Pedido                 INT (11)                NOT NULL,
-    Id_Producto               INT (11)                NOT NULL,
-    Unidades                  INT (100)               NOT NULL,
-    CONSTRAINT pk_detalle_pedido PRIMARY KEY (Id_Detalle_Pedido),
-    CONSTRAINT fk_Detalle_Pedido_pedido FOREIGN KEY (Id_Pedido) REFERENCES T_Pedido (Id_Pedido),
-    CONSTRAINT fk_Detalle_Pedido_producto FOREIGN KEY (Id_Producto) REFERENCES T_Produto (Id_Producto)
+CREATE TABLE IF NOT EXISTS t_detallePedidos(
+    id_detallePedido    int(11) auto_increment  NOT NULL,
+    id_pedido           int(11)                 NOT NULL,
+    id_producto         int(11)                 NOT NULL,
+    unidades            int(100)                NOT NULL,
+    CONSTRAINT          pk_detallePedido        PRIMARY KEY(id_detallePedido),
+    CONSTRAINT          fk_detallePedido        FOREIGN KEY(id_pedido)  REFERENCES t_pedidos(id_pedido),
+    CONSTRAINT          fk_detalleProducto      FOREIGN KEY(id_producto)REFERENCES t_productos(id_producto)
 )ENGINE=InnoDb;
