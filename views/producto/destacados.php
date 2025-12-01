@@ -1,1 +1,1 @@
-<h1>Productos destacados :D</h1>
+<h1>Productos destacados</h1>
